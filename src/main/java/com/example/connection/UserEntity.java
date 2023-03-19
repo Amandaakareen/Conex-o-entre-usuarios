@@ -1,16 +1,16 @@
 package com.example.connection;
 
-import java.util.List;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.example.connection.dto.RegisterUserDTO;
+import com.example.connection.dto.UserResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,8 +39,6 @@ public class UserEntity {
     @Column(name = "PASSWORD")
     private String password;
     
-    @OneToMany(mappedBy = "userEntity")
-    List<ConnectionEntity> connections;
 
     public static UserEntity mapTo(RegisterUserDTO registerUserDTO){
         UserEntity user = new UserEntity();
@@ -49,4 +47,12 @@ public class UserEntity {
         user.setPassword(registerUserDTO.getPassword());
         return user;
     }
+
+    public static UserResponse mapToUserDTO(UserEntity entity){
+        UserResponse  user = new UserResponse ();
+        user.setName(entity.getName());
+        user.setEmail(entity.getEmail());
+        return user;
+    }
+
 }

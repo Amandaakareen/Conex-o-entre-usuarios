@@ -9,6 +9,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.example.connection.dto.ConnectionResponse;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
+
 @Entity
 @Table(name = "CONNECTION")
 public class ConnectionEntity {
@@ -19,9 +30,22 @@ public class ConnectionEntity {
     private Long Id;
 
     @ManyToOne
+    @JoinColumn(name = "idUserConnection")
+    private UserEntity userConnection;
+
+    @ManyToOne
     @JoinColumn(name = "idUser")
     private UserEntity userEntity;
 
     @Column(name = "APPROVED")
     private boolean approved;
+
+    public static ConnectionResponse mapTo(ConnectionEntity connectionEntity){
+        ConnectionResponse dto = new ConnectionResponse();
+        dto.setApproved(connectionEntity.isApproved());
+        dto.setUserConnection(UserEntity.mapToUserDTO(connectionEntity.getUserConnection()));
+        return dto;
+    }
+
+   
 }
